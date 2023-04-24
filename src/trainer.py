@@ -19,7 +19,7 @@ class Trainer:
             optimizer,
             device,
             metric_monitor: MetricMonitor,
-            epochs: int = 5,
+            epochs: int,
     ):
         """
         :param model: Model to be trained
@@ -100,9 +100,6 @@ class Trainer:
                 self.metric_monitor.update("Loss", loss.item())
 
                 stream.set_description(f"{self.metric_monitor}")
-
-        # epoch_loss = np.mean(running_loss)
-        # self.loss["val"].append(epoch_loss)
 
     # def _save_checkpoint(self, epoch):
     #     """Save model checkpoint to `self.model_dir` directory"""
