@@ -62,7 +62,6 @@ class Trainer:
         self.model.train()
 
         stream = tqdm(self.train_dataloader)
-        stream.set_description(f"{self.metric_monitor}")
 
         for i, batch_data in enumerate(stream, 1):
             inputs = batch_data[0].to(self.device)
@@ -86,8 +85,7 @@ class Trainer:
         """
         self.model.eval()
 
-        stream = tqdm(self.train_dataloader)
-        stream.set_description(f"{self.metric_monitor}")
+        stream = tqdm(self.val_dataloader)
 
         with torch.no_grad():
             for i, batch_data in enumerate(stream, 1):
@@ -100,22 +98,3 @@ class Trainer:
                 self.metric_monitor.update("Loss", loss.item())
 
                 stream.set_description(f"{self.metric_monitor}")
-
-    # def _save_checkpoint(self, epoch):
-    #     """Save model checkpoint to `self.model_dir` directory"""
-    #     epoch_num = epoch + 1
-    #     if epoch_num % self.checkpoint_frequency == 0:
-    #         model_path = "checkpoint_{}.pt".format(str(epoch_num).zfill(3))
-    #         model_path = os.path.join(self.model_dir, model_path)
-    #         torch.save(self.model, model_path)
-    #
-    # def save_model(self):
-    #     """Save final model to `self.model_dir` directory"""
-    #     model_path = os.path.join(self.model_dir, "model.pt")
-    #     torch.save(self.model, model_path)
-    #
-    # def save_loss(self):
-    #     """Save train/val loss as json file to `self.model_dir` directory"""
-    #     loss_path = os.path.join(self.model_dir, "loss.json")
-    #     with open(loss_path, "w") as fp:
-    #         json.dump(self.loss, fp)
