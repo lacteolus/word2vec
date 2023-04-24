@@ -9,7 +9,8 @@ from src.vocab import Vocab
 from src.trainer import Trainer
 from src.metric_monitor import MetricMonitor
 
-TEXT_PATH = os.path.join("dataset", "text8.txt")
+# TEXT_PATH = os.path.join("dataset", "text8.txt")
+TEXT_PATH = os.path.join("dataset", "alice30.txt")
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 EPOCHS = 1
 
@@ -21,6 +22,8 @@ if __name__ == "__main__":
     tokens = tokenize(raw_txt)
     vocab = Vocab.from_text(raw_txt)
     vocab_size = vocab.get_size()
+
+    print(f"Vocab size {vocab_size}")
 
     train_dataloader = get_dataloader(
         tokens=tokens,
@@ -51,8 +54,8 @@ if __name__ == "__main__":
         criterion=criterion,
         optimizer=optimizer,
         device=DEVICE,
-        lr_scheduler=None,
-        metric_monitor=metric_monitor
+        metric_monitor=metric_monitor,
+        epochs=EPOCHS
     )
 
     trainer.train()

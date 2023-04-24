@@ -7,8 +7,8 @@ class MetricMonitor:
     Monitors metrics through the batch
     """
 
-    def __init__(self, epochs: int, float_precision: int = 3):
-        self.current_epoch = 0
+    def __init__(self, epochs: int = 1, float_precision: int = 3):
+        self.current_epoch = 1
         self.current_step = "train"
         self.float_precision = float_precision
         self.metrics = {
@@ -21,6 +21,8 @@ class MetricMonitor:
     def update(self, metric_name: str, value: float):
         """
         Update metric
+        :param metric_name: Name of the metric
+        :param value: Metric value
         """
         metric = self.metrics[self.current_epoch][self.current_step][metric_name]
         metric.append(value)
@@ -41,17 +43,11 @@ class MetricMonitor:
             raise ValueError
 
     def __str__(self):
-        return f"Epoch: {self.current_epoch}. {[self.current_step]} "\
-               " | ".join(
+        epoch_info = f"Epoch: {self.current_epoch}/{len(self.metrics.keys())} - {self.current_step.capitalize()}."
+        metric_info = f" | ".join(
                     [
-                        f"{metric_name}: {np.mean(metric)}:.self.float_precision"
+                        f"{metric_name}: {np.mean(metric):.{self.float_precision}f}"
                         for (metric_name, metric) in self.metrics[self.current_epoch][self.current_step].items()
                     ]
                 )
-    #
-    # @property
-    # def results(self):
-    #     """
-    #     Return current state of metrics as dictionary. Only 'avg' value is used
-    #     """
-    #     return {metric: values["avg"] for metric, values in self.metrics.items()}
+        return f"{epoch_info} {metric_info}"

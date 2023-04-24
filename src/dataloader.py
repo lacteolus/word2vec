@@ -9,7 +9,7 @@ from src.vocab import Vocab
 
 WINDOW_SIZE = 5
 TOKENS_CHUNK_SIZE = WINDOW_SIZE * 10
-BATCH_SIZE = 32
+BATCH_SIZE = 4
 
 
 class CustomDataset(Dataset):
