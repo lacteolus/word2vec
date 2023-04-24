@@ -9,7 +9,6 @@ from src.vocab import Vocab
 
 WINDOW_SIZE = 5
 TOKENS_CHUNK_SIZE = WINDOW_SIZE * 10
-BATCH_SIZE = 4
 
 
 class CustomDataset(Dataset):
@@ -91,13 +90,20 @@ def collate_skipgram(batch, vocab: Vocab) -> (torch.Tensor, torch.Tensor):
     return batch_input, batch_output
 
 
-def get_dataloader(tokens: List[str], model_type: str, loader_type: str, vocab: Vocab) -> DataLoader:
+def get_dataloader(
+        tokens: List[str],
+        model_type: str,
+        loader_type: str,
+        vocab: Vocab,
+        batch_size: int = 16
+) -> DataLoader:
     """
     Get dataloader and vocabulary
     :param tokens: List of tokens
     :param model_type: Type of the model to be used: either "skipgram" or "cbow
     :param loader_type: Type of the loader: either "train" or "test"
     :param vocab: Vocabulary
+    :param batch_size: Dataloader batch size
     :return: Dataloader
     """
     if loader_type == "train":
@@ -118,7 +124,7 @@ def get_dataloader(tokens: List[str], model_type: str, loader_type: str, vocab: 
 
     return DataLoader(
         dataset,
-        batch_size=BATCH_SIZE,
+        batch_size=batch_size,
         shuffle=True,
         collate_fn=partial(collate_fn, vocab=vocab),
     )
