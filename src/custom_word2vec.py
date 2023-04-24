@@ -3,30 +3,28 @@ Custom implementations for Word2Vec
 """
 import torch.nn as nn
 
-EMBEDDING_SIZE = 100  # Embedding (vector) size
-EMBEDDING_MAX_NORM = 1  # Maximum normalization
-
 
 class CBOWModel(nn.Module):
     """
     CBOW model
     """
-    def __init__(self, vocab_size: int) -> None:
+    def __init__(self, vocab_size: int, embedding_size: int = 100) -> None:
         """
         :param vocab_size: Vocabulary size
+        :param embedding_size: Embedding size
         """
         super().__init__()
 
         # Linear layer
         self.linear = nn.Linear(
-            in_features=EMBEDDING_SIZE,
+            in_features=embedding_size,
             out_features=vocab_size,
         )
         # Embeddings
         self.embeddings = nn.Embedding(
             num_embeddings=vocab_size,
-            embedding_dim=EMBEDDING_SIZE,
-            max_norm=EMBEDDING_MAX_NORM,
+            embedding_dim=embedding_size,
+            max_norm=1,
         )
 
     def forward(self, inputs):
@@ -40,23 +38,24 @@ class SkipGramModel(nn.Module):
     """
     Skip-Gram model
     """
-    def __init__(self, vocab_size: int) -> None:
+    def __init__(self, vocab_size: int, embedding_size: int = 100) -> None:
         """
         :param vocab_size: Vocabulary size
+        :param embedding_size: Embedding size
         """
         super().__init__()
 
         # Linear layer
         self.linear = nn.Linear(
-            in_features=EMBEDDING_SIZE,
+            in_features=embedding_size,
             out_features=vocab_size,
         )
 
         # Embeddings
         self.embeddings = nn.Embedding(
             num_embeddings=vocab_size,
-            embedding_dim=EMBEDDING_SIZE,
-            max_norm=EMBEDDING_MAX_NORM,
+            embedding_dim=embedding_size,
+            max_norm=1,
         )
 
     def forward(self, inputs):

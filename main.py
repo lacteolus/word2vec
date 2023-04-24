@@ -23,6 +23,9 @@ EPOCHS = 5
 # Model type
 MODEL_TYPE = "cbow"  # or "skipgram"
 
+# Embedding (vector) size
+EMBEDDING_SIZE = 100
+
 # Save path
 SAVE_PATH = "results"
 
@@ -50,9 +53,11 @@ if __name__ == "__main__":
     )
 
     if MODEL_TYPE == "cbow":
-        model = CBOWModel(VOCAB_SIZE)
+        model = CBOWModel(vocab_size=VOCAB_SIZE, embedding_size=EMBEDDING_SIZE)
     elif MODEL_TYPE == "skipgram":
-        model = SkipGramModel(VOCAB_SIZE)
+        model = SkipGramModel(vocab_size=VOCAB_SIZE, embedding_size=EMBEDDING_SIZE)
+    else:
+        raise NotImplementedError
 
     # Loss function
     criterion = nn.CrossEntropyLoss()
