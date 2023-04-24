@@ -1,64 +1,64 @@
 import os
 import torch
+from collections import Counter
 import torch.nn as nn
 import numpy as np
 from src.helpers import tokenize
 from src.dataloader import get_dataloader
 from src.custom_word2vec import CBOWModel, SkipGramModel
-from src.vocab import Vocab
 from src.trainer import Trainer
 from src.metric_monitor import MetricMonitor
 
-# TEXT_PATH = os.path.join("dataset", "text8.txt")
-TEXT_PATH = os.path.join("dataset", "alice30.txt")
+TEXT_PATH = os.path.join("dataset", "text8.txt")
+# TEXT_PATH = os.path.join("dataset", "alice30.txt")
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 EPOCHS = 1
+MAX_VOCAB_SIZE = 5000
 
 
 if __name__ == "__main__":
     with open(TEXT_PATH, "r") as f:
         raw_txt = f.read()
 
-    tokens = tokenize(raw_txt)
-    vocab = Vocab.from_text(raw_txt)
+    vocab, tokens = tokenize(inp=raw_txt, vocab_size=MAX_VOCAB_SIZE, default_token="<unk>")
     vocab_size = vocab.get_size()
 
     print(f"Vocab size {vocab_size}")
 
-    train_dataloader = get_dataloader(
-        tokens=tokens,
-        model_type="cbow",
-        loader_type="train",
-        vocab=vocab
-    )
-    val_dataloader = get_dataloader(
-        tokens=tokens,
-        model_type="cbow",
-        loader_type="val",
-        vocab=vocab
-    )
-
-    model = CBOWModel(vocab_size)
-
-    criterion = nn.CrossEntropyLoss()
-    optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
-
-    metric_monitor = MetricMonitor(
-        epochs=EPOCHS
-    )
-
-    trainer = Trainer(
-        model=model,
-        train_dataloader=train_dataloader,
-        val_dataloader=val_dataloader,
-        criterion=criterion,
-        optimizer=optimizer,
-        device=DEVICE,
-        metric_monitor=metric_monitor,
-        epochs=EPOCHS
-    )
-
-    trainer.train()
+    # train_dataloader = get_dataloader(
+    #     tokens=tokens,
+    #     model_type="cbow",
+    #     loader_type="train",
+    #     vocab=vocab
+    # )
+    # val_dataloader = get_dataloader(
+    #     tokens=tokens,
+    #     model_type="cbow",
+    #     loader_type="val",
+    #     vocab=vocab
+    # )
+    #
+    # model = CBOWModel(vocab_size)
+    #
+    # criterion = nn.CrossEntropyLoss()
+    # optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+    #
+    # metric_monitor = MetricMonitor(
+    #     epochs=EPOCHS
+    # )
+    #
+    # trainer = Trainer(
+    #     model=model,
+    #     train_dataloader=train_dataloader,
+    #     val_dataloader=val_dataloader,
+    #     criterion=criterion,
+    #     optimizer=optimizer,
+    #     device=DEVICE,
+    #     metric_monitor=metric_monitor,
+    #     epochs=EPOCHS
+    # )
+    #
+    # trainer.train()
 
     # train_loss = []
     # val_loss = []

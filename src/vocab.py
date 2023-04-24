@@ -4,25 +4,14 @@ Implements simplified version of Vocab similar to 'torchtext.vocab.Vocab' class 
 required attributes and methods.
 """
 from typing import List, Dict
-from src.helpers import tokenize
 
 
 class Vocab:
-    def __init__(self, tokens: List[str]):
+    def __init__(self, tokens: List[str], default_token="<unk>"):
         """
         :param tokens: List of unique tokens
         """
-        self.vocab = tokens
-
-    @classmethod
-    def from_text(cls, text):
-        """
-        Builds vocabulary from the text
-        :param text: Cleaned text as a string of space-separated words
-        :return: Vocabulary as a list of unique words
-        """
-        tokens = list(set(tokenize(text)))
-        return Vocab(tokens)
+        self.vocab = [default_token] + tokens
 
     def get_stoi(self) -> Dict[str, int]:
         """

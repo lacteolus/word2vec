@@ -6,6 +6,9 @@ import string
 import re
 from sklearn.decomposition import PCA
 import matplotlib.pyplot as plt
+from collections import Counter
+from src.vocab import Vocab
+from tqdm.auto import tqdm
 
 
 def display_pca_scatterplot(model, words: list = None, sample=0) -> None:
@@ -44,10 +47,28 @@ def clean(inp: str) -> str:
     return output
 
 
-def tokenize(inp: str) -> list:
+def tokenize(inp: str, vocab_size: int, default_token="<unk>") -> (Vocab, list):
     """
     Creates list of tokens (words) from input string. Words should be separated with space.
     :param inp: Input string
+    :param vocab_size: Vocabulary size
+    :param default_token: Default token
     :return: List of tokens (words)
     """
-    return clean(inp.strip()).split(" ")
+    exclusions = ["the", "of", "and", "in", "a", "to", "for"]
+    tokens = clean(inp.strip()).split(" ")
+    # Remove small words and prepositions
+    tokens = [token for token in tokens if token not in exclusions and len(token) > 2]
+    # Count tokens
+    counts = Counter(tokens)
+    # Create vocabulary
+    vocab_tokens = [token for token, _ in counts.most_common(vocab_size - 1)]
+    vocab = Vocab(tokens=vocab_tokens, default_token="<unk>")
+    # Final tokens
+    f_tokens = []
+    for token in tqdm(tokens):
+        if token in vocab_tokens:
+            f_tokens.append(token)
+        else:
+            f_tokens.append(default_token)
+    return vocab, f_tokens
