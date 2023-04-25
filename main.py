@@ -2,8 +2,7 @@ import os
 import torch
 import torch.nn as nn
 import json
-from src.helpers import tokenize
-from src.dataloader import get_dataloader
+from src.dataloader import get_dataloader, tokenize
 from src.custom_word2vec import CBOWModel, SkipGramModel
 from src.trainer import Trainer
 from src.metric_monitor import MetricMonitor

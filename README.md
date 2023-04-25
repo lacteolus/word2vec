@@ -37,7 +37,6 @@ It uses minimum of third-party packages. Most of the functionality is implemente
 │   ├── custom_word2vec.py
 │   ├── dataloader.py
 │   ├── gensim_word2vec.py
-│   ├── helpers.py
 │   ├── metric_monitor.py
 │   ├── trainer.py
 │   └── vocab.py
@@ -47,11 +46,11 @@ It uses minimum of third-party packages. Most of the functionality is implemente
 ```
 - **dataset/text8.txt** - text8 corpus file
 - **notebooks/training.ipynb** - demo for training procedure
+- **notebooks/evaluation.ipynb** - demo for visually evaluating models
 - **results/** - folder for storing results
 - **src/custom_word2vec.py** - custom Word2Vec model
 - **src/dataloader.py** - dataloader related classes and functions
 - **src/gensim_word2vec.py** - Gensim Word2Vec model
-- **src/helpers.py** - helper functions
 - **src/metric_monitor.py** - metric monitor class
 - **src/vocab.py** - vocabulary class
 - **main.py** - main script for training
@@ -72,6 +71,8 @@ Before running the command, the following parameters can be changed in `main.py`
 By default, parameters are similar to ones used in Gensim.
 
 ### Using notebooks
+- **notebooks/training.ipynb** notebook can be used to run train process in Colab or Kaggle environments
+- **notebooks/evaluation.ipynb** notebook can be used to evaluate different models e.g. display scatterplots or find similar words
 
 ## License
 This project is licensed under the terms of the [MIT license](https://choosealicense.com/licenses/mit).

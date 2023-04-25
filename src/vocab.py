@@ -3,6 +3,7 @@ Class for building vocabulary.
 Implements simplified version of Vocab similar to 'torchtext.vocab.Vocab' class with minimum
 required attributes and methods.
 """
+import json
 from typing import List, Dict
 
 
@@ -11,7 +12,10 @@ class Vocab:
         """
         :param tokens: List of unique tokens
         """
-        self.vocab = [default_token] + tokens
+        if default_token in tokens:
+            self.vocab = tokens
+        else:
+            self.vocab = [default_token] + tokens
 
     def get_stoi(self) -> Dict[str, int]:
         """
@@ -56,3 +60,15 @@ class Vocab:
         :return: Size of the vocabulary
         """
         return len(self.vocab)
+
+    @classmethod
+    def from_file(cls, file):
+        """
+        Download vocabulary from file
+        :param file: File path
+        :return: Vocab object
+        """
+        with open(file, "r") as f:
+            vocab_dict = json.load(f)
+        return Vocab(list(vocab_dict.keys()))
+

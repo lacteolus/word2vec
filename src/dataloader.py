@@ -2,10 +2,14 @@
 Functions and classes to prepare data, build vocabulary and dataloaders
 """
 import torch
+import string
+import re
 from torch.utils.data import Dataset, DataLoader
 from functools import partial
 from typing import List
 from src.vocab import Vocab
+from tqdm.auto import tqdm
+from collections import Counter
 
 WINDOW_SIZE = 5
 TOKENS_CHUNK_SIZE = WINDOW_SIZE * 10
@@ -128,3 +132,41 @@ def get_dataloader(
         shuffle=True,
         collate_fn=partial(collate_fn, vocab=vocab),
     )
+
+
+def clean(inp: str) -> str:
+    """
+    Cleans text by removing all punctuation and special characters. "Your string!" -> "your string"
+    :param inp: Input text as string
+    :return: Cleaned text as string
+    """
+    output = inp.translate(str.maketrans(string.punctuation, " " * len(string.punctuation)))
+    output = re.sub(r'\s+', ' ', output.lower())
+    return output
+
+
+def tokenize(inp: str, vocab_size: int, default_token="<unk>") -> (Vocab, list):
+    """
+    Creates list of tokens (words) from input string. Words should be separated with space.
+    :param inp: Input string
+    :param vocab_size: Vocabulary size
+    :param default_token: Default token
+    :return: List of tokens (words)
+    """
+    exclusions = ["the", "of", "and", "in", "a", "to", "for"]
+    tokens = clean(inp.strip()).split(" ")
+    # Remove small words and prepositions
+    tokens = [token for token in tokens if token not in exclusions and len(token) > 2]
+    # Count tokens
+    counts = Counter(tokens)
+    # Create vocabulary
+    vocab_tokens = [token for token, _ in counts.most_common(vocab_size - 1)]
+    vocab = Vocab(tokens=vocab_tokens, default_token="<unk>")
+    # Final tokens
+    f_tokens = []
+    for token in tqdm(tokens):
+        if token in vocab_tokens:
+            f_tokens.append(token)
+        else:
+            f_tokens.append(default_token)
+    return vocab, f_tokens
