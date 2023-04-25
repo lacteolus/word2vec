@@ -19,6 +19,10 @@ It uses minimum of third-party packages. Most of the functionality is implemente
 * Trained for 5 epochs
 * Results can be compared with reference [Gensim Word2Vec module](https://radimrehurek.com/gensim/models/word2vec.html) 
 
+## Repository mirrors
+- https://github.com/lacteolus/word2vec.git
+- https://gitlab.atp-fivt.org/nlp2023/kosmachevdm-word2vec.git
+
 ## Repository structure
 ```
 .

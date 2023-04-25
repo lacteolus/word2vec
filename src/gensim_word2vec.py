@@ -63,7 +63,7 @@ class GensimWord2Vec:
             else:
                 words = [word for word in self.model.wv.vocab]
 
-        word_vectors = np.array([self.model.wv.key_to_index[w] for w in words])
+        word_vectors = np.array([self.model.wv.get_vector(w) for w in words])
 
         two_dim = PCA().fit_transform(word_vectors)[:, :2]
 
