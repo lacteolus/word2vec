@@ -17,6 +17,7 @@ It uses minimum of third-party packages. Most of the functionality is implemente
 * Context for both models is represented as 5 words before and 5 words after the central word
 * AdamW optimizer is used
 * Trained for 5 epochs
+* Vocabulary size is limited by 5000 words
 * Results can be compared with reference [Gensim Word2Vec module](https://radimrehurek.com/gensim/models/word2vec.html) 
 
 ## Repository mirrors
@@ -28,6 +29,9 @@ It uses minimum of third-party packages. Most of the functionality is implemente
 .
 ├── dataset
 │   └── tesxt8.txt
+├── imgs
+│   ├── cbow.png
+│   └── gensim.png
 ├── notebooks
 │   └── training.ipynb
 ├── results
@@ -45,6 +49,7 @@ It uses minimum of third-party packages. Most of the functionality is implemente
 └── requirements.txt
 ```
 - **dataset/text8.txt** - text8 corpus file
+- **imgs/** - images for documentation
 - **notebooks/training.ipynb** - demo for training procedure
 - **notebooks/evaluation.ipynb** - demo for visually evaluating models
 - **results/** - folder for storing results
@@ -73,6 +78,14 @@ By default, parameters are similar to ones used in Gensim.
 ### Using notebooks
 - **notebooks/training.ipynb** notebook can be used to run train process in Colab or Kaggle environments
 - **notebooks/evaluation.ipynb** notebook can be used to evaluate different models e.g. display scatterplots or find similar words
+
+Here are two examples of word groupings
+
+**Gensim model**
+![](/imgs/gensim.png)
+
+**CBOW custom model**
+![Tux, the Linux mascot](/imgs/cbow.png)
 
 ## License
 This project is licensed under the terms of the [MIT license](https://choosealicense.com/licenses/mit).
