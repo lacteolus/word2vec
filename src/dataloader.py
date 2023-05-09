@@ -165,7 +165,9 @@ def tokenize(inp: str, vocab_size: int, default_token="<unk>", min_token_size: i
     vocab = Vocab(tokens=vocab_tokens, default_token="<unk>")
     # Final tokens
     f_tokens = []
-    for token in tqdm(tokens):
+    stream = tqdm(tokens)
+    for token in stream:
+        stream.set_description("Tokenizing...")
         if token in vocab_tokens:
             f_tokens.append(token)
         else:
