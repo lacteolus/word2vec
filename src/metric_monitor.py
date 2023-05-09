@@ -37,14 +37,15 @@ class MetricMonitor:
         """
         Set current step type: either "val" or "train"
         """
-        if step in ["val", "train"]:
+        supported_steps = ["val", "train"]
+        if step in supported_steps:
             self.current_step = step
         else:
-            raise ValueError
+            raise ValueError(f"Unexpected step name: {step}. Supported steps: {supported_steps}")
 
     def __str__(self):
         epoch_info = f"Epoch: {self.current_epoch}/{len(self.metrics.keys())} - {self.current_step.capitalize()}."
-        metric_info = f" | ".join(
+        metric_info = " | ".join(
                     [
                         f"{metric_name}: {np.mean(metric):.{self.float_precision}f}"
                         for (metric_name, metric) in self.metrics[self.current_epoch][self.current_step].items()

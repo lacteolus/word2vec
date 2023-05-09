@@ -145,18 +145,19 @@ def clean(inp: str) -> str:
     return output
 
 
-def tokenize(inp: str, vocab_size: int, default_token="<unk>") -> (Vocab, list):
+def tokenize(inp: str, vocab_size: int, default_token="<unk>", min_token_size: int = 3) -> (Vocab, list):
     """
     Creates list of tokens (words) from input string. Words should be separated with space.
     :param inp: Input string
     :param vocab_size: Vocabulary size
     :param default_token: Default token
+    :param min_token_size: Minimum token size
     :return: List of tokens (words)
     """
     exclusions = ["the", "of", "and", "in", "a", "to", "for"]
     tokens = clean(inp.strip()).split(" ")
     # Remove small words and prepositions
-    tokens = [token for token in tokens if token not in exclusions and len(token) > 2]
+    tokens = [token for token in tokens if len(token) >= min_token_size and token not in exclusions]
     # Count tokens
     counts = Counter(tokens)
     # Create vocabulary

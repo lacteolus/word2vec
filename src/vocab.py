@@ -16,13 +16,14 @@ class Vocab:
             self.vocab = tokens
         else:
             self.vocab = [default_token] + tokens
+        self.stoi = {item: i for i, item in enumerate(self.vocab)}
 
     def get_stoi(self) -> Dict[str, int]:
         """
         Get all tokens (words) and their indexes
         :return: Dictionary mapping tokens to indices
         """
-        return {item: i for i, item in enumerate(self.vocab)}
+        return self.stoi
 
     def get_itos(self) -> List[str]:
         """
@@ -54,7 +55,7 @@ class Vocab:
         """
         return [self.lookup_index(token) for token in tokens]
 
-    def get_size(self) -> int:
+    def __len__(self) -> int:
         """
         Get the size of the vocabulary
         :return: Size of the vocabulary
@@ -62,13 +63,12 @@ class Vocab:
         return len(self.vocab)
 
     @classmethod
-    def from_file(cls, file):
+    def from_file(cls, file_path):
         """
         Download vocabulary from file
-        :param file: File path
+        :param file_path: File path
         :return: Vocab object
         """
-        with open(file, "r") as f:
+        with open(file_path, "r") as f:
             vocab_dict = json.load(f)
         return Vocab(list(vocab_dict.keys()))
-

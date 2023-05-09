@@ -63,7 +63,7 @@ class Trainer:
 
         stream = tqdm(self.train_dataloader)
 
-        for i, batch_data in enumerate(stream, 1):
+        for batch_data in stream:
             inputs = batch_data[0].to(self.device)
             labels = batch_data[1].to(self.device)
 
@@ -88,7 +88,7 @@ class Trainer:
         stream = tqdm(self.val_dataloader)
 
         with torch.no_grad():
-            for i, batch_data in enumerate(stream, 1):
+            for batch_data in stream:
                 inputs = batch_data[0].to(self.device)
                 labels = batch_data[1].to(self.device)
 

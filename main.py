@@ -35,7 +35,7 @@ if __name__ == "__main__":
         raw_txt = f.read()
 
     vocab, tokens = tokenize(inp=raw_txt, vocab_size=MAX_VOCAB_SIZE, default_token="<unk>")
-    VOCAB_SIZE = min(MAX_VOCAB_SIZE, vocab.get_size())
+    VOCAB_SIZE = min(MAX_VOCAB_SIZE, len(vocab))
 
     # Dataloaders
     train_dataloader = get_dataloader(
